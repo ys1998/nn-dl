@@ -1,0 +1,14 @@
+recurrent neural networks
+convolutional neural networks
+perceptrons
+sigmoid neurons
+weights, biases/thresholds
+input/output/hidden layer(s)
+error/cost/loss/performance function
+gradient descent
+stochastic gradient descent
+mini-batch
+epoch
+online/on-line/incremental learning (mini-batch size 1)
+
+

@@ -1,0 +1,26 @@
+*** CHAPTER 1 ***
+
+recurrent neural networks
+convolutional neural networks
+perceptrons
+sigmoid neurons
+weights, biases/thresholds
+input/output/hidden layer(s)
+error/cost/loss/performance function
+gradient descent
+stochastic gradient descent
+mini-batch
+epoch
+online/on-line/incremental learning (mini-batch size 1)
+
+deep neural networks
+
+*** CHAPTER 2 ***
+
+backpropagation algorithm
+weight, bias, activation input and weighted input (matrix notation for each)
+Hadamard/Schur product (elementwise product)
+equations of backpropagation (4)
+
+
+
