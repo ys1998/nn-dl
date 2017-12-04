@@ -22,5 +22,8 @@ weight, bias, activation input and weighted input (matrix notation for each)
 Hadamard/Schur product (elementwise product)
 equations of backpropagation (4)
 
+*** CHAPTER 3 ***
+
+
 
 
