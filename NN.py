@@ -1,8 +1,14 @@
 """
 - Execution commands -
 
-import NN; import mnist_loader as ml; tr_d,va_d,te_d=ml.load_data_wrapper(); net=NN.NN([784,30,10]); net.train(tr_d,learning_rate=3.0,mini_batch_size=50,test_data=te_d)
+import NN; 
+import mnist_loader as ml; 
 
+tr_d,va_d,te_d=ml.load_data_wrapper(); 
+net=NN.NN([784,30,10]); 
+net.train(tr_d,learning_rate=3.0,mini_batch_size=50,test_data=te_d)
+
+# Trained weights and biases can be accessed as net.w and net.b
 """
 
 import numpy as np
