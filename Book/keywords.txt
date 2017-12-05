@@ -23,6 +23,8 @@ Hadamard/Schur product (elementwise product)
 equations of backpropagation (4)
 
 *** CHAPTER 3 ***
+cross entropy function
+backpropagation algorithm for above (changes only in the last layer deltas)
 
 
 
