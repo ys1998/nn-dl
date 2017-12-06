@@ -1,0 +1,6 @@
+EXTERNAL READING - Keywords
+
+LSTM (Long Short Term Memory networks)
+Truncated Backpropagation algorithm (backpropagate for a finite number of steps)
+
+
