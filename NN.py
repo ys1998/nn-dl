@@ -1,16 +1,8 @@
 """
-- Execution commands -
+Implementation of a neural network class from scratch.
 
-import NN; 
-import mnist_loader as ml; 
-
-tr_d,va_d,te_d=ml.load_data_wrapper(); 
-net=NN.NN([784,30,10]); 
-net.train(tr_d,learning_rate=3.0,mini_batch_size=50,test_data=te_d)
-
-# Trained weights and biases can be accessed as net.w and net.b
+The network is built on sigmoid neurons, using SGD for optimization and mean square error function for cost calculation.
 """
-
 import numpy as np
 import random
 import itertools
@@ -41,7 +33,18 @@ class NN:
 				z=sigmoid(np.dot(self.w[i],z)+self.b[i])
 			return z
 
-	def train(self,training_data,learning_rate=1.0,mini_batch_size=1,n_epochs=10,test_data=None):
+	def test(self,test_data):
+		""" Function to calculate the accuracy of the NN over the provided test_data """
+		if test_data:
+			correct_answers=0.0
+			for x,y in test_data:
+				output=self.calc_output(x)
+				if np.argmax(output)==y:
+					correct_answers+=1
+			return correct_answers/len(test_data)
+
+
+	def train(self,training_data,learning_rate=1.0,mini_batch_size=1,n_epochs=10,validation_data=None):
 		"""
 		Function which trains the neural network with the provided training data by updating the weights and biases using stochastic gradient descent in order to minimize the mean squared error.
 
@@ -97,14 +100,8 @@ class NN:
 					self.w=[org-learning_rate/mini_batch_size*acc_change for org,acc_change in zip(self.w,weight_errors)]
 					self.b=[org-learning_rate/mini_batch_size*acc_change for org,acc_change in zip(self.b,bias_errors)]
 
-
-				if not test_data:
-					print("Epoch {0} complete.".format(epoch_no))
+				""" Testing the current parameters on the training/validation data provided """
+				if not validation_data:
+					print("Epoch {0} complete.\nTraining data accuracy = {1}".format(epoch_no+1,self.test(training_data)))
 				else:
-					""" Testing the current parameters on the test data provided """
-					correct_answers=0
-					for x,y in test_data:
-						if(np.argmax(self.calc_output(x))==y):
-							correct_answers+=1
-
-					print("Epoch {0} complete. Accuracy = {1}/{2} = {3}".format(epoch_no+1,correct_answers,len(test_data),correct_answers/len(test_data)))
+					print("Epoch {0} complete.\nTraining data accuracy = {1}\tValidation data accuracy = {2}".format(epoch_no+1,self.test(training_data),self.test(validation_data)))
