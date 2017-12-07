@@ -1,6 +1,7 @@
 """
 Implementation of a deep neural network of specified structure using TensorFlow.
-Current setup : ReLU activation, 'cross entropy' cost function (with softmax for last layer) and Gradient Descent optimizer
+Current setup : Xavier Glorot initialization, ReLU activation, 'cross entropy' cost function (with softmax for last layer) and Gradient Descent optimizer
+Accuracy : ~ 96 %
 
 It uses matrix-based batch training, with the following possible variations :
  - Gradient Descent / Adam optimizer
@@ -45,8 +46,8 @@ class DNN:
         self.n_layers=len(layer_sizes)
 
         # Define variables
-        self.b=[tf.Variable(tf.random_normal([1,x])) for x in layer_sizes[1:]]
-        self.w=[tf.Variable(tf.random_normal([j,k])) for j,k in zip(layer_sizes[:-1],layer_sizes[1:])]
+        self.b=[tf.Variable(tf.truncated_normal([1,x],stddev=0.1)) for x in layer_sizes[1:]]
+        self.w=[tf.Variable(tf.truncated_normal([j,k],stddev=0.1)) for j,k in zip(layer_sizes[:-1],layer_sizes[1:])]
 
         # Define placeholders
         self.inp=tf.placeholder(tf.float32,[None,layer_sizes[0]])
