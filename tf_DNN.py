@@ -1,5 +1,6 @@
 """
 Implementation of a deep neural network of specified structure using TensorFlow.
+Current setup : ReLU activation, 'cross entropy' cost function (with softmax for last layer) and Gradient Descent optimizer
 
 It uses matrix-based batch training, with the following possible variations :
  - Gradient Descent / Adam optimizer
@@ -21,7 +22,7 @@ def one_hot_vector(size,pos):
     return ans
 
 def partition_dataset(training_data,size):
-    """ Generator to yield groups of size `size` along with their correct outputs """
+    """ Function to return groups of size `size` along with their correct outputs """
     random.shuffle(training_data)
     inp=[]; out=[]; cntr=1;
     inp.append(training_data[0][0])
@@ -52,34 +53,59 @@ class DNN:
         self.correct_output=tf.placeholder(tf.float32,[None,layer_sizes[-1]])
 
         # Define the computational graph
-        self.result=tf.add(tf.matmul(self.inp,self.w[0]),self.b[0])
+        self.result=tf.sigmoid(tf.add(tf.matmul(self.inp,self.w[0]),self.b[0]))
+        logits=None
         for i in range(1,self.n_layers-1):
-            self.result=tf.add(tf.matmul(self.result,self.w[i]),self.b[i])
+            # remove this `if` statement and keep only the `else` part when using mean square
+            if i==self.n_layers-2:
+                # store only the weighted input for last layer
+                logits=tf.add(tf.matmul(self.result,self.w[i]),self.b[i])
+                """ Sigmoid activation function """
+                # self.result=tf.nn.softmax(logits)
+                """ ReLU activation function """
+                self.result=tf.nn.relu(logits)
+            else:
+                """ Sigmoid activation function """
+                # self.result=tf.sigmoid(tf.add(tf.matmul(self.result,self.w[i]),self.b[i]))
+                """ ReLU activation function """
+                self.result=tf.nn.relu(tf.add(tf.matmul(self.result,self.w[i]),self.b[i]))
 
         # Compute loss/error
-        self._cost=tf.reduce_mean(-1*self.correct_output*tf.log(self.result))
+        """ Cross entropy loss function """
+        self._cost=tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits,labels=self.correct_output))
+        """ Mean square loss function """
+        # self._cost=tf.reduce_mean(tf.square(self.correct_output-self.result))
 
         # Define the training action
         self.train_step=None
 
+        print(tf.trainable_variables())
         self._init=tf.global_variables_initializer()
 
     def train(self, training_data, mini_batch_size=50, n_epochs=10, learning_rate=3.0):
+        """ Gradient Descent optimizer """
         self.train_step=tf.train.GradientDescentOptimizer(learning_rate).minimize(self._cost)
+        """ Adam optimizer """
+        # self.train_step=tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self._cost)
         accuracy = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(self.result,axis=1),tf.argmax(self.correct_output,axis=1)),tf.float32))
+
+        # Get training, validation and test data matrices
+        i_tr,o_tr,i_va,o_va,i_te,o_te=ml.get_matrices()
+
         sess=tf.Session()
-        sess.run(self._init)
+        sess.run(tf.initialize_all_variables())
         for epoch_no in range(n_epochs):
             cntr=1
             print("Epoch number {0}".format(epoch_no+1))
             for batch,batch_output in partition_dataset(training_data,mini_batch_size):
                 sess.run(self.train_step,{self.inp:batch, self.correct_output:batch_output})
-                print("Mini-batch = {0}. Accuracy = {1}".format(cntr,sess.run(accuracy,{self.inp:batch, self.correct_output:batch_output})))
+                print("\33[2K Mini-batch = {0}. Accuracy = {1}\r".format(cntr,sess.run(accuracy,{self.inp:batch, self.correct_output:batch_output})),end='',flush=True)
                 cntr+=1
 
             # Display accuracies over training and validation data
-            i,o=ml.get_training_data_matrix()
-            print("Training data accuracy = {0}".format(sess.run(accuracy,{self.inp:i, self.correct_output:o})))
-            # i1,o1=partition_dataset(validation_data,len(validation_data))
-            # print("Validation data accuracy = {0}".format(sess.run(accuracy,{self.inp:i1, self.correct_output:o1})))
+            print("")
+            print("Training data accuracy = {0}".format(sess.run(accuracy,{self.inp:i_tr, self.correct_output:o_tr})))
+            print("Validation data accuracy = {0}".format(sess.run(accuracy,{self.inp:i_va, self.correct_output:o_va})))
+
+        print("\nTest data accuracy = {0}".format(sess.run(accuracy,{self.inp:i_te, self.correct_output:o_te})))
         sess.close()
