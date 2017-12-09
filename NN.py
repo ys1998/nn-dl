@@ -24,8 +24,8 @@ class NN:
 	def __init__(self, n_neurons):
 		self.n_layers=len(n_neurons)
 		self.n_neurons=n_neurons
-		self.b=[np.random.randn(size,1) for size in n_neurons[1:]]
-		self.w=[np.random.randn(size_next,size_curr) for size_curr,size_next in zip(n_neurons[:-1],n_neurons[1:])]
+		self.b=[np.random.normal(loc=0.0,scale=0.1,size=(size,1)) for size in n_neurons[1:]]
+		self.w=[np.random.normal(loc=0.0,scale=0.1,size=(size_next,size_curr)) for size_curr,size_next in zip(n_neurons[:-1],n_neurons[1:])]
 
 	def calc_output(self,input_values):
 		if len(input_values)==self.n_neurons[0]:
