@@ -83,7 +83,7 @@ class DNN:
         print(tf.trainable_variables())
         self._init=tf.global_variables_initializer()
 
-    def train(self, training_data, mini_batch_size=50, n_epochs=10, learning_rate=3.0):
+    def train(self, training_data, mini_batch_size=50, n_epochs=50, learning_rate=3.0):
         """ Gradient Descent optimizer """
         self.train_step=tf.train.GradientDescentOptimizer(learning_rate).minimize(self._cost)
         """ Adam optimizer """
@@ -95,11 +95,19 @@ class DNN:
 
         sess=tf.Session()
         sess.run(tf.initialize_all_variables())
+
+        # initialize writer for using TensorBoard
+        tf.summary.scalar("Training Accuracy", accuracy)
+        tf.summary.scalar("Cost", self._cost)
+        summary_op = tf.summary.merge_all()
+        writer = tf.summary.FileWriter("./logs", graph=sess.graph)
+
         for epoch_no in range(n_epochs):
             cntr=1
             print("Epoch number {0}".format(epoch_no+1))
             for batch,batch_output in partition_dataset(training_data,mini_batch_size):
-                sess.run(self.train_step,{self.inp:batch, self.correct_output:batch_output})
+                _,summary=sess.run([self.train_step,summary_op],{self.inp:batch, self.correct_output:batch_output})
+                writer.add_summary(summary,epoch_no)
                 print("\33[2K Mini-batch = {0}. Accuracy = {1}\r".format(cntr,sess.run(accuracy,{self.inp:batch, self.correct_output:batch_output})),end='',flush=True)
                 cntr+=1
 
