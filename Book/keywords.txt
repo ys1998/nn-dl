@@ -2,7 +2,7 @@
 
 recurrent neural networks
 convolutional neural networks
-perceptrons
+perceptrons (binary output - 0/1)
 sigmoid neurons
 weights, biases/thresholds
 input/output/hidden layer(s)
@@ -19,12 +19,34 @@ deep neural networks
 
 backpropagation algorithm
 weight, bias, activation input and weighted input (matrix notation for each)
-Hadamard/Schur product (elementwise product)
+Hadamard/Schur product (elementwise multiplication)
 equations of backpropagation (4)
 
 *** CHAPTER 3 ***
+binary entropy function (for bernoulli distributions)
 cross entropy function
 backpropagation algorithm for above (changes only in the last layer deltas)
+learning slowdown / saturation
+softmax layer of outputs 
+log likelihood loss function
+[FUN FACT] origin of the term "softmax" (softened-maximum) 
+
+overfitting
+[METHODS TO PREVENT OVERFITTING]
+ - early stopping (using validation data)
+ - hold out method (again using "separate" validation data)
+
+regularization
+
+[METHODS OF REGULARIZATION]
+ - weight decay or L2 regularization
+   -- formula (addition of square of weights to old cost function)
+   -- regularization parameter
+   -- changes in backpropagation formula
+ - L1 regularization
+ - Dropout
+ - Artificial generation of test data
+
 
 
 
