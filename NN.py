@@ -7,12 +7,13 @@ import numpy as np
 import random
 import itertools
 
+
 def sigmoid(z):
 	return 1.0/(1.0+np.exp(-1.0*z))
 
 def derivative_sigmoid(z):
 	temp=sigmoid(z)
-	return temp*(1-temp)
+	return np.multiply(temp,1-temp)
 
 def one_hot_vector(size,pos):
 	temp=np.zeros(size)
@@ -57,7 +58,7 @@ class NN:
 				random.shuffle(training_data)
 
 				for batch_no in range(0, len(training_data), mini_batch_size):
-					print("Epoch : {0}, Mini-batch : {1}".format(epoch_no+1,int(batch_no/mini_batch_size+1)))
+					print("\33[2KEpoch : {0}, Mini-batch : {1}\r".format(epoch_no+1,int(batch_no/mini_batch_size+1)),end='')
 					""" Initialize matrices to accumulate the changes in weights and biases """
 					weight_errors=[np.zeros(np.shape(x)) for x in self.w]
 					bias_errors=[np.zeros(np.shape(x)) for x in self.b]
@@ -92,16 +93,15 @@ class NN:
 
 						for nw in range(len(weight_errors)):
 							r,c=np.shape(weight_errors[nw])
-							temp=[[delta[nw].item(j)*activations[nw].item(k) for k in range(c)] for j in range(r)]
-							weight_errors[nw]=np.add(weight_errors[nw],temp)
+							weight_errors[nw]=np.add(weight_errors[nw], np.dot(delta[nw][:r],np.transpose(activations[nw][:c])) )
 							bias_errors[nw]=np.add(bias_errors[nw],delta[nw])
 
 					""" Update the weights and biases """
-					self.w=[org-learning_rate/mini_batch_size*acc_change for org,acc_change in zip(self.w,weight_errors)]
-					self.b=[org-learning_rate/mini_batch_size*acc_change for org,acc_change in zip(self.b,bias_errors)]
+					self.w=np.add(self.w,-learning_rate/mini_batch_size*np.array(weight_errors))
+					self.b=np.add(self.b,-learning_rate/mini_batch_size*np.array(bias_errors))
 
 				""" Testing the current parameters on the training/validation data provided """
 				if not validation_data:
-					print("Epoch {0} complete.\nTraining data accuracy = {1}".format(epoch_no+1,self.test(training_data)))
+					print("\33[2KEpoch {0} complete.\nTraining data accuracy = {1}".format(epoch_no+1,self.test(training_data)))
 				else:
-					print("Epoch {0} complete.\nTraining data accuracy = {1}\tValidation data accuracy = {2}".format(epoch_no+1,self.test(training_data),self.test(validation_data)))
+					print("\33[2KEpoch {0} complete.\nTraining data accuracy = {1}\tValidation data accuracy = {2}".format(epoch_no+1,self.test(training_data),self.test(validation_data)))
