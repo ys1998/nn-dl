@@ -37,17 +37,39 @@ overfitting
  - hold out method (again using "separate" validation data)
 
 regularization
-
 [METHODS OF REGULARIZATION]
  - weight decay or L2 regularization
    -- formula (addition of square of weights to old cost function)
    -- regularization parameter
    -- changes in backpropagation formula
  - L1 regularization
+   -- formula (addition of abs. value of weights to org. cost function)
+   -- changes in backpropagation algorithm
  - Dropout
+   -- `pkeep` parameter : fraction of neurons NOT discarded
+   -- scale the parameters accordingly to account for them being counted multiple times
  - Artificial generation of test data
+   -- images - rotation by small amounts, slight distortions
+   -- sound - alter speed, background noise, pitch
 
+weight initialization
+ - xavier glorot initialization ( initialization with N(0,1/sqrt(n_neurons)) )
 
+Hyperparameter tuning [METHODS EXCLUDING THE FIRST AREN'T DISCUSSED IN THE BOOK - READ THE RESEARCH PAPERS MENTIONED IN THE BOOK]
+ - empirical testing (naive)
+ - grid method vs random method (paper by Yoshua Bengio)
+ - Bayesian method
 
+Alternate optimization functions
+ - Gradient descent with decaying learning rate
+ - Hessian-based descent
+   -- delta_w = - (inverse of Hessian matrix)*(gradient of cost function)
+   -- computationally expensive
+ - momentum-based gradient descent
+   -- formula (maintain a 'velocity' vector for each weight vector)
+   -- momentum coefficient, mu
+   -- easy to compute, faster
+ - [EXTRA - TensorFlow] Adam optimizer
+   -- implements momentum-based GD and decaying learning rate ??
 
 
