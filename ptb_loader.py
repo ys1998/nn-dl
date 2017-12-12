@@ -17,7 +17,7 @@ def list_to_vector(l,V):
     return res[:-1],res[1:]
 
 def load_words():
-    path='data/ptb.train.txt'
+    path='data/PTB/ptb.train.txt'
     words=[]
     with open(path,'r') as f:
         for line in f:
@@ -35,7 +35,7 @@ def load_words():
     return (words,V)
 
 def load_chars():
-    path='data/ptb.char.train.txt'
+    path='data/PTB/ptb.char.train.txt'
     chars=[]
     with open(path,'r') as f:
         for line in f:
