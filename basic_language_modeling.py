@@ -6,13 +6,20 @@ def run():
     l,V=pl.load_words()
     # `l` is list of sentences split into words
     # `V` is a dict() mapping word with index in vocabulary
+
+    # Convert words to respective indices
+    for i in range(len(l)):
+        for j in range(len(l[i])):
+            l[i][j]=V[l[i][j]]
+
+    # Generate training data
     training_data=[]
     for sent in l:
-        training_data.append(pl.list_to_vector(sent,V))
+        training_data.append( (sent[:-1],sent[1:]) )
 
     """ Initializing RNN with hidden state of dimension 100x1 """
-    rnet=RNN.RNN(100,len(V))
-    rnet.train(training_data)
+    rnet=RNN(100,len(V))
+    rnet.train(training_data,transform=lambda sent: [pl.one_hot(len(V),x) for x in sent])
 
 if __name__ == '__main__':
     run()

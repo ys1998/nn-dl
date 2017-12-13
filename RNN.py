@@ -13,7 +13,8 @@ Here, the biases B1 and B2 are optional, and are generally ignored.
 import numpy as np
 
 def tanh(z):
-    return (1.0-np.exp(-2*z))/(1.0+np.exp(-2*z))
+    f1=np.exp(z); f2=np.exp(-1*z)
+    return np.divide(f1-f2,f1+f2)
 
 # def tanh_prime(z):
 #     temp = tanh(z)
@@ -52,13 +53,13 @@ class RNN:
         for x,y in zip(X,Y):
             self.x.append(x)
             if self.ignore_bias:
-                self.h.append(tanh(np.dot(self.U,x)+np.dot(self.W,h[-1])))
-                self.o.append(softmax(np.dot(self.V,h[-1])))
-                self.loss+=-np.sum(y*np.log(o[-1]))
+                self.h.append(tanh(np.dot(self.U,x)+np.dot(self.W,self.h[-1])))
+                self.o.append(softmax(np.dot(self.V,self.h[-1])))
+                self._loss+=-np.sum(y*np.log(self.o[-1]))
             else:
-                self.h.append(tanh(np.dot(self.U,x)+np.dot(self.W,h[-1])+self.B1))
-                self.o.append(softmax(np.dot(self.V,h[-1])+self.B2))
-                self.loss+=-np.sum(y*np.log(o[-1]))
+                self.h.append(tanh(np.dot(self.U,x)+np.dot(self.W,self.h[-1])+self.B1))
+                self.o.append(softmax(np.dot(self.V,self.h[-1])+self.B2))
+                self._loss+=-np.sum(y*np.log(self.o[-1]))
 
     def _reset(self):
         """
@@ -69,7 +70,7 @@ class RNN:
         self.o=[]
         self._loss=0
         # self.h=[self.h[-1]]
-        self.h=[h[0]]
+        self.h=[self.h[0]]
 
     def _bptt(self,Y,step=-1):
         """
@@ -82,27 +83,42 @@ class RNN:
         dEdU=np.zeros(np.shape(self.U))
         dEdV=np.zeros(np.shape(self.V))
         dEdW=np.zeros(np.shape(self.W))
-        # Initialized but used only if required
-        dEdB1=np.zeros(np.shape(self.B1))
-        dEdB2=np.zeros(np.shape(self.B2))
-        for t in range(T-1,-1,-1):
-            delta_o = np.subtract(self.o[t]-Y[t])
-            dEdV += np.dot(delta_o,np.transpose(self.h[t]))
-            delta_t = np.multiply(np.dot(np.transpose(self.V),delta_o),1.0-h[t]**2)
-            if step==-1:
-                for bps in range(t-1,-1,-1):
-                    dEdW += np.outer(delta_t,self.h[bps-1])
-                    dEdU += np.outer(delta_t,self.x[bps-1])
-                    delta_t=np.dot(np.transpose(self.W),delta_t)*(1.0-self.h[bps-1]**2)
-            else:
-                for bps in range(t-1,max(-1,t-step-1),-1):
-                    dEdW += np.outer(delta_t,self.h[bps-1])
-                    dEdU += np.outer(delta_t,self.x[bps-1])
-                    delta_t=np.dot(np.transpose(self.W),delta_t)*(1.0-self.h[bps-1]**2)
-
         if self.ignore_bias:
+            for t in range(T-1,-1,-1):
+                delta_o = np.subtract(self.o[t],Y[t])
+                dEdV += np.dot(delta_o,np.transpose(self.h[t]))
+                delta_t = np.multiply(np.dot(np.transpose(self.V),delta_o),1.0-self.h[t]**2)
+                if step==-1:
+                    for bps in range(t-1,-1,-1):
+                        dEdW += np.outer(delta_t,self.h[bps-1])
+                        dEdU += np.outer(delta_t,self.x[bps-1])
+                        delta_t=np.dot(np.transpose(self.W),delta_t)*(1.0-self.h[bps-1]**2)
+                else:
+                    for bps in range(t-1,max(-1,t-step-1),-1):
+                        dEdW += np.outer(delta_t,self.h[bps-1])
+                        dEdU += np.outer(delta_t,self.x[bps-1])
+                        delta_t=np.dot(np.transpose(self.W),delta_t)*(1.0-self.h[bps-1]**2)
+
             return [dEdU, dEdV, dEdW]
         else:
+            # Initialized but used only if required
+            dEdB1=np.zeros(np.shape(self.B1))
+            dEdB2=np.zeros(np.shape(self.B2))
+            for t in range(T-1,-1,-1):
+                delta_o = np.subtract(self.o[t],Y[t])
+                dEdV += np.dot(delta_o,np.transpose(self.h[t]))
+                delta_t = np.multiply(np.dot(np.transpose(self.V),delta_o),1.0-self.h[t]**2)
+                if step==-1:
+                    for bps in range(t-1,-1,-1):
+                        dEdW += np.outer(delta_t,self.h[bps-1])
+                        dEdU += np.outer(delta_t,self.x[bps-1])
+                        delta_t=np.dot(np.transpose(self.W),delta_t)*(1.0-self.h[bps-1]**2)
+                else:
+                    for bps in range(t-1,max(-1,t-step-1),-1):
+                        dEdW += np.outer(delta_t,self.h[bps-1])
+                        dEdU += np.outer(delta_t,self.x[bps-1])
+                        delta_t=np.dot(np.transpose(self.W),delta_t)*(1.0-self.h[bps-1]**2)
+
             return [dEdU, dEdV, dEdW, dEdB1, dEdB2]
 
     def train(self,training_data,learning_rate=0.5,n_epochs=50,bptt_step=-1,transform=lambda x: x):
@@ -115,6 +131,7 @@ class RNN:
             # Here X and Y are sequences of words
             for org_X,org_Y in training_data:
                 X=transform(org_X); Y=transform(org_Y)
+                # print(X,Y)
                 cntr+=1
                 self._feed(X,Y)
                 print("Loss in epoch {0} : batch {1} = {2}".format(epoch_no+1,cntr,self._loss))
