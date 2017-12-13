@@ -13,7 +13,10 @@ Here, the biases B1 and B2 are optional, and are generally ignored.
 import numpy as np
 
 def tanh(z):
-    f1=np.exp(z); f2=np.exp(-1*z)
+    # Clipping values before using
+    # (numerical values are system dependent)
+    new_z=np.clip(z,-700,700)
+    f1=np.exp(new_z); f2=np.exp(-1*new_z)
     return np.divide(f1-f2,f1+f2)
 
 # def tanh_prime(z):
@@ -21,7 +24,10 @@ def tanh(z):
 #     return 1.0-temp**2
 
 def softmax(z):
-    return np.exp(z)/np.sum(np.exp(z))
+    # Clipping values before using
+    # (numerical values are system dependent)
+    new_z=np.clip(z,-700,700)
+    return np.exp(new_z)/np.sum(np.exp(new_z))
 
 class RNN:
     def __init__(self,state_size,input_size,ignore_bias=True):
@@ -55,11 +61,13 @@ class RNN:
             if self.ignore_bias:
                 self.h.append(tanh(np.dot(self.U,x)+np.dot(self.W,self.h[-1])))
                 self.o.append(softmax(np.dot(self.V,self.h[-1])))
-                self._loss+=-np.sum(y*np.log(self.o[-1]))
+                # Clipping to avoid overflow
+                self._loss+=-np.sum(y*np.log(np.clip(self.o[-1],10**-10,10**10)))
             else:
                 self.h.append(tanh(np.dot(self.U,x)+np.dot(self.W,self.h[-1])+self.B1))
                 self.o.append(softmax(np.dot(self.V,self.h[-1])+self.B2))
-                self._loss+=-np.sum(y*np.log(self.o[-1]))
+                # Clipping to avoid overflow
+                self._loss+=-np.sum(y*np.log(np.clip(self.o[-1],10**-10,10**10)))
 
     def _reset(self):
         """

@@ -19,7 +19,7 @@ def run():
 
     """ Initializing RNN with hidden state of dimension 100x1 """
     rnet=RNN(100,len(V))
-    rnet.train(training_data,transform=lambda sent: [pl.one_hot(len(V),x) for x in sent])
+    rnet.train(training_data,bptt_step=10,transform=lambda sent: [pl.one_hot(len(V),x) for x in sent])
 
 if __name__ == '__main__':
     run()
