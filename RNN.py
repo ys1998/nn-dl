@@ -39,8 +39,8 @@ class RNN:
         self.x=[]
         # Parameters to be trained; standard initialization
         self.U=np.random.uniform(-1.0/np.sqrt(input_size),1.0/np.sqrt(input_size),[state_size,input_size])
-        self.V=np.random.uniform(-1.0/np.sqrt(input_size),1.0/np.sqrt(input_size),[input_size,state_size])
-        self.W=np.random.uniform(-1.0/np.sqrt(input_size),1.0/np.sqrt(input_size),[state_size,state_size])
+        self.V=np.random.uniform(-1.0/np.sqrt(state_size),1.0/np.sqrt(state_size),[input_size,state_size])
+        self.W=np.random.uniform(-1.0/np.sqrt(state_size),1.0/np.sqrt(state_size),[state_size,state_size])
         # Optional biases
         self.ignore_bias=ignore_bias
         if not ignore_bias:
@@ -97,12 +97,12 @@ class RNN:
                 dEdV += np.dot(delta_o,np.transpose(self.h[t]))
                 delta_t = np.multiply(np.dot(np.transpose(self.V),delta_o),1.0-self.h[t]**2)
                 if step==-1:
-                    for bps in range(t-1,-1,-1):
+                    for bps in range(t-1,0,-1):
                         dEdW += np.outer(delta_t,self.h[bps-1])
                         dEdU += np.outer(delta_t,self.x[bps-1])
                         delta_t=np.dot(np.transpose(self.W),delta_t)*(1.0-self.h[bps-1]**2)
                 else:
-                    for bps in range(t-1,max(-1,t-step-1),-1):
+                    for bps in range(t-1,max(0,t-step),-1):
                         dEdW += np.outer(delta_t,self.h[bps-1])
                         dEdU += np.outer(delta_t,self.x[bps-1])
                         delta_t=np.dot(np.transpose(self.W),delta_t)*(1.0-self.h[bps-1]**2)
@@ -136,6 +136,7 @@ class RNN:
         """
         for epoch_no in range(n_epochs):
             cntr=0
+            total_loss=0.0
             # Here X and Y are sequences of words
             for org_X,org_Y in training_data:
                 X=transform(org_X); Y=transform(org_Y)
@@ -143,8 +144,10 @@ class RNN:
                 cntr+=1
                 self._feed(X,Y)
                 print("Loss in epoch {0} : batch {1} = {2}".format(epoch_no+1,cntr,self._loss))
+                total_loss+=self._loss
                 dEdU, dEdV, dEdW = self._bptt(Y,bptt_step)
                 self.W+=-learning_rate*dEdW
                 self.U+=-learning_rate*dEdU
                 self.V+=-learning_rate*dEdV
                 self._reset()
+            print("Average loss in epoch {0} = {1}".format(epoch_no+1,total_loss/cntr))
