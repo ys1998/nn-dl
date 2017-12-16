@@ -6,22 +6,12 @@ Entire data is available in the `data/` directory.
 """
 import numpy as np
 
-def one_hot(size,pos):
-    ans=np.zeros([size,1])
-    ans[pos]=1
-    return ans
-
-def list_to_vector(l,V):
-    size=len(V)
-    res=[one_hot(size,V[x]) for x in l]
-    return res[:-1],res[1:]
-
 def load_words():
-    path='data/PTB/ptb.train.txt'
+    path='../data/PTB/ptb.train.txt'
     words=[]
     with open(path,'r') as f:
         for line in f:
-            words.append(line.split())
+            words.append(line.replace('\n','<eos>').split())
 
     cntr=0; V={}
     for sent in words:
@@ -33,6 +23,22 @@ def load_words():
                 cntr+=1
 
     return (words,V)
+
+def load_words_raw():
+    l,V = load_words()
+    indices = [V[item] for sublist in l for item in sublist]
+    index_to_word = {i:w for i,w in V.items()}
+    return indices,index_to_word
+
+def get_data_and_dict(data_size,batch_size,bptt_steps):
+    l,V = load_words_raw()
+    l=l[:data_size]
+    width = batch_size
+    length = len(l[:-1]) // width
+    length = (length // bptt_steps)*bptt_steps
+    I = np.transpose(np.reshape(l[:length*width],[width,length]))
+    O = np.transpose(np.reshape(l[1:length*width+1],[width,length]))
+    return I,O,V
 
 def load_chars():
     path='data/PTB/ptb.char.train.txt'
