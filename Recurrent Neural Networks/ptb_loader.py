@@ -10,24 +10,22 @@ def load_words():
     path='../data/PTB/ptb.train.txt'
     words=[]
     with open(path,'r') as f:
-        for line in f:
-            words.append(line.replace('\n','<eos>').split())
+        words.extend(f.read().replace('\n','<eos>').split())
 
     cntr=0; V={}
-    for sent in words:
-        for w in sent:
-            if V.get(w):
-                pass
-            else:
-                V[w]=cntr
-                cntr+=1
+    for w in words:
+        if V.get(w):
+            pass
+        else:
+            V[w]=cntr
+            cntr+=1
 
     return (words,V)
 
 def load_words_raw():
     l,V = load_words()
-    indices = [V[item] for sublist in l for item in sublist]
-    index_to_word = {i:w for i,w in V.items()}
+    indices = [V[item] for item in l]
+    index_to_word = {i:w for w,i in V.items()}
     return indices,index_to_word
 
 def get_data_and_dict(data_size,batch_size,bptt_steps):

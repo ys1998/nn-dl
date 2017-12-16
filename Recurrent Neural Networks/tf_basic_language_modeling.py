@@ -9,7 +9,7 @@ print("Constructing RNN ...")
 rnet=tf_RNN.tf_RNN(len(index_to_word),50,50,10)
 # Train the RNN
 print("Training RNN ...")
-rnet.train(I,O,learning_rate=1.0)
+rnet.train(I,O,learning_rate=1.0,n_epochs=10)
 # Predict sentences
-print("Predicting sentence ...")
-rnet.predict(index_to_word)
+# print("Predicting sentence ...")
+# rnet.predict(index_to_word)
