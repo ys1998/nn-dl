@@ -23,6 +23,7 @@ Hadamard/Schur product (elementwise multiplication)
 equations of backpropagation (4)
 
 *** CHAPTER 3 ***
+
 binary entropy function (for bernoulli distributions)
 cross entropy function
 backpropagation algorithm for above (changes only in the last layer deltas)
@@ -72,4 +73,10 @@ Alternate optimization functions
  - [EXTRA - TensorFlow] Adam optimizer
    -- implements momentum-based GD and decaying learning rate ??
 
+*** CHAPTER 4 ***
 
+ - universality theorem for neural networks
+
+*** CHAPTER 5 ***
+
+ - 
