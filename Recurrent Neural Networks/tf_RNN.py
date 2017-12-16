@@ -61,7 +61,7 @@ class tf_RNN:
 
     def train(self,input_data,output_data,learning_rate=1.0,n_epochs=30):
         """
-        Training data is a tuple (input_array, correct_output_array).
+        Training data is contained in `input_data`, `output_data`.
         Both of these arrays have `batch_size` number of columns and arbitrary number of rows.
         For language modeling :
         Each element of these arrays is the index of a particular word from the vocabulary.
