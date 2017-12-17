@@ -14,6 +14,9 @@ def softmax(z):
     # Naive implementation - doesn't handle overflows
     return np.exp(z)/np.sum(np.exp(z))
 
+def decay(min_learning_rate,max_learning_rate,frac):
+    return max_learning_rate - (max_learning_rate-min_learning_rate)*frac
+
 class tf_RNN:
     def __init__(
                     self,
@@ -63,7 +66,7 @@ class tf_RNN:
         self._loss=tf.reduce_mean(self._loss)
         self._init=tf.global_variables_initializer()
 
-    def train(self,input_data,output_data,learning_rate=1.0,n_epochs=30):
+    def train(self,input_data,output_data,learning_rate=1.0,n_epochs=30,factor=10):
         """
         Training data is contained in `input_data`, `output_data`.
         Both of these arrays have `batch_size` number of columns and arbitrary number of rows.
@@ -75,10 +78,13 @@ class tf_RNN:
         I=input_data; O=output_data
         with tf.Session() as sess:
             sess.run(self._init)
-            train = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(self._loss)
+
             state = np.zeros([self._state_size,self._batch_size])
             for epoch_no in range(n_epochs):
                 total_loss = 0.0
+                cur_learning_rate = decay(learning_rate/factor,learning_rate,epoch_no/n_epochs)
+                train = tf.train.GradientDescentOptimizer(learning_rate=cur_learning_rate).minimize(self._loss)
+                print("Current learning rate = {0}".format(cur_learning_rate))
                 for cntr in range(len(I)//self._bptt_steps):
                     _,state,curr_loss = sess.run([train,self._state,self._loss],feed_dict={self.input:I[cntr*self._bptt_steps:min(len(I),(cntr+1)*self._bptt_steps),:],self.correct_output:O[cntr*self._bptt_steps:min(len(I),(cntr+1)*self._bptt_steps),:],self._initial_state:state})
                     total_loss += curr_loss
