@@ -78,10 +78,12 @@ class tf_RNN:
             train = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(self._loss)
             state = np.zeros([self._state_size,self._batch_size])
             for epoch_no in range(n_epochs):
+                total_loss = 0.0
                 for cntr in range(len(I)//self._bptt_steps):
                     _,state,curr_loss = sess.run([train,self._state,self._loss],feed_dict={self.input:I[cntr*self._bptt_steps:min(len(I),(cntr+1)*self._bptt_steps),:],self.correct_output:O[cntr*self._bptt_steps:min(len(I),(cntr+1)*self._bptt_steps),:],self._initial_state:state})
-                    print("Loss after epoch {0}, batch {1} = {2}".format(epoch_no+1,(cntr+1)*self._bptt_steps,curr_loss))
-
+                    total_loss += curr_loss
+                    print("Loss after epoch {0}, batch {1} = {2}".format(epoch_no+1,(cntr+1)*self._bptt_steps,curr_loss/self._bptt_steps))
+                print("Average loss in epoch {0} = {1}".format(epoch_no+1,total_loss/len(I)))
 
     # def calc_output(self,inp,state):
     #     """
