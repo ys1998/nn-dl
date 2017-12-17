@@ -3,7 +3,7 @@ This repository is a collection of resources that I used to dive into the field 
 * from scratch
 * using TensorFlow (without using inbuilt classes)
 
-Most of the code is inspired from the online book [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com) by M. Nielson. Apart from this the following resources were used -
+Most of the code is inspired from the online book [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com) by M. Nielson. (pdf version can be found [here](Book/) Apart from this the following resources were used -
 
 ## Resources
 1. 
