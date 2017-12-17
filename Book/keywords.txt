@@ -79,4 +79,12 @@ Alternate optimization functions
 
 *** CHAPTER 5 ***
 
+ - instabiliy of gradient in earlier layers
+ - vanishing gradient problem
+ - exploding gradient problem
+ - effects of random initialization and activation functions
+ - effects of optimizers (e.g. how gradient descent is applied, etc.)
+
+*** CHAPTER 6 ***
+
  - 
