@@ -36,8 +36,8 @@ class tf_RNN:
         self.W=tf.Variable(tf.random_uniform([state_size,state_size],-1.0/np.sqrt(input_size),1.0/np.sqrt(input_size)))
 
         # Biases
-        self.B1=tf.Variable(tf.zeros([state_size,batch_size]))
-        self.B2=tf.Variable(tf.zeros([input_size,batch_size]))
+        self.B1=tf.Variable(tf.zeros([state_size,1]))
+        self.B2=tf.Variable(tf.zeros([input_size,1]))
 
         # Placeholders
         self.input=tf.placeholder(tf.int32,[self._bptt_steps,batch_size],name="Input")
@@ -49,12 +49,16 @@ class tf_RNN:
         self._state=activation(tf.matmul(self.U,inp)+tf.matmul(self.W,self._initial_state)+self.B1)
         self._output=tf.matmul(self.V,self._state)+self.B2
         self._loss=tf.nn.softmax_cross_entropy_with_logits(logits=self._output,labels=tf.transpose(tf.one_hot(self.correct_output[0],depth=self._input_size)),dim=0)
+        # self._output = tf.nn.softmax(tf.matmul(self.V,self._state)+self.B2)
+        # self._loss = tf.losses.log_loss(labels=tf.transpose(tf.one_hot(self.correct_output[0],depth=self._input_size)),predictions=self._output)
 
         for i in range(1,self._bptt_steps):
             inp = tf.transpose(tf.one_hot(self.input[i],depth=self._input_size))
             self._state=activation(tf.matmul(self.U,inp)+tf.matmul(self.W,self._state)+self.B1)
             self._output=tf.matmul(self.V,self._state)+self.B2
             self._loss+=tf.nn.softmax_cross_entropy_with_logits(logits=self._output,labels=tf.transpose(tf.one_hot(self.correct_output[i],depth=self._input_size)),dim=0)
+            # self._output = tf.nn.softmax(tf.matmul(self.V,self._state)+self.B2)
+            # self._loss += tf.losses.log_loss(labels=tf.transpose(tf.one_hot(self.correct_output[i],depth=self._input_size)),predictions=self._output)
 
         self._loss=tf.reduce_mean(self._loss)
         self._init=tf.global_variables_initializer()
