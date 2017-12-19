@@ -25,5 +25,5 @@ Most of the code is inspired from the online book [Neural Networks and Deep Lear
 6. **Vector, Matrix, Tensor Derivatives** - Eric Miller \[ [pdf](Reference/Derivatives_of_tensors.pdf) ]
 7. **Deep Learning** - Ian Goodfellow, Yoshua Bengio, Aaron Courville \[ [pdf](Reference/Deep_Learning.pdf) | [html](http://www.deeplearningbook.org/) ]
 8. **Tutorial on DNNs** - Google Codelabs \[ [html](https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0) ]
-9. **Different architectures for RNNs** - Wikipedia \[ [html](https://en.wikipedia.org/wiki/Recurrent_neural_network#Architechtures) ]
+9. **Different architectures for RNNs** - Wikipedia \[ [html](https://en.wikipedia.org/wiki/Recurrent_neural_network#Architectures) ]
 
