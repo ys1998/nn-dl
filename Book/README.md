@@ -1,7 +1,7 @@
-*** CHAPTER 1 ***
+# Keywords summary
 
-recurrent neural networks
-convolutional neural networks
+## Chapter 1
+
 perceptrons (binary output - 0/1)
 sigmoid neurons
 weights, biases/thresholds
@@ -15,14 +15,14 @@ online/on-line/incremental learning (mini-batch size 1)
 
 deep neural networks
 
-*** CHAPTER 2 ***
+## Chapter 2
 
 backpropagation algorithm
 weight, bias, activation input and weighted input (matrix notation for each)
 Hadamard/Schur product (elementwise multiplication)
 equations of backpropagation (4)
 
-*** CHAPTER 3 ***
+## Chapter 3
 
 binary entropy function (for bernoulli distributions)
 cross entropy function
@@ -73,11 +73,11 @@ Alternate optimization functions
  - [EXTRA - TensorFlow] Adam optimizer
    -- implements momentum-based GD and decaying learning rate ??
 
-*** CHAPTER 4 ***
+## Chapter 4
 
  - universality theorem for neural networks
 
-*** CHAPTER 5 ***
+## Chapter 5
 
  - instabiliy of gradient in earlier layers
  - vanishing gradient problem
@@ -85,6 +85,32 @@ Alternate optimization functions
  - effects of random initialization and activation functions
  - effects of optimizers (e.g. how gradient descent is applied, etc.)
 
-*** CHAPTER 6 ***
+## Chapter 6
 
- - 
+ - convolutional neural networks
+   -- based on local receptive fields, shared weights, pooling
+   -- adapted to translational invariance of images
+
+[MORE ON CNN's]
+ - local receptive fields
+   -- hidden layer(s) and connections between neurons
+   -- stride length
+ - shared weights and biases
+   -- feature and feature maps (map input layer to hidden layer)
+ - pooling
+   -- pooling layer generally used after a convolutional layer
+   -- input regions may or may not overlap (generally they are disjoint)
+   -- types -> max-pooling, L2 pooling
+   -- the shared weights/bias for each layer define a kernel/filter
+ - common architechture: input, convolutional, max-pool, fully-connected hidden layer, output layer with softmax activation and log-likelihood loss function
+ - multi-convolutional-layer networks
+ - regularization techniques - dropout (for fully connected layers), no regularizers for convolutional layers due to inbuilt `resistance`
+ - ensemble of networks 
+
+[RECENT TOPICS]
+ - adversarial images/input
+ - recurrent neural networks
+   -- interesting application : Neural Turing Machines (NTMs)
+ - Long Short-Term Memory networks (LSTMs)
+ - deep belief networks, generative models and Boltzmann machines
+ - deep learning and AI
