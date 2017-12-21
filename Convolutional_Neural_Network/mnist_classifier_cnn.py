@@ -32,4 +32,4 @@ cnet = CNN(
                             )
             ]
             )
-cnet.train(tr_d)
+cnet.train(tr_d,learning_rate=0.5)

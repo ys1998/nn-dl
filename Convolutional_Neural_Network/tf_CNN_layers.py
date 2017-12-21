@@ -27,7 +27,8 @@ class ConvPoolLayer:
         r,c,k2=self.filter_shape
         mb,ri,ci,k1=self.input_shape
         self.shared_weights=tf.Variable(np.zeros((r,c,k1,k2),dtype=np.float32))
-        self.shared_biases = tf.Variable(np.zeros((mb,ri-r+1,ci-c+1,k2),dtype=np.float32))
+        # self.shared_biases = tf.Variable(np.zeros((mb,ri-r+1,ci-c+1,k2),dtype=np.float32))
+        self.shared_biases = tf.constant(np.zeros((mb,ri-r+1,ci-c+1,k2),dtype=np.float32))
 
     def get_input_shape(self):
         """ Function to return the input Tensor dimensions """
