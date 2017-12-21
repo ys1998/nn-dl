@@ -26,9 +26,9 @@ class ConvPoolLayer:
         # Define variables/parameters for the feature map
         r,c,k2=self.filter_shape
         mb,ri,ci,k1=self.input_shape
-        self.shared_weights=tf.Variable(np.zeros((r,c,k1,k2),dtype=np.float32))
-        # self.shared_biases = tf.Variable(np.zeros((mb,ri-r+1,ci-c+1,k2),dtype=np.float32))
-        self.shared_biases = tf.constant(np.zeros((mb,ri-r+1,ci-c+1,k2),dtype=np.float32))
+        self.shared_weights=tf.Variable(np.random.standard_normal((r,c,k1,k2)).astype(np.float32))
+        # self.shared_biases = tf.Variable(np.random.standard_normal((mb,ri-r+1,ci-c+1,k2),dtype=np.float32))
+        self.shared_biases = tf.constant(np.random.standard_normal((mb,ri-r+1,ci-c+1,k2)).astype(np.float32))
 
     def get_input_shape(self):
         """ Function to return the input Tensor dimensions """
@@ -79,8 +79,8 @@ class ConnectedLayer:
         self.activation = activation
 
         # Create variables
-        self.weights = tf.Variable(np.zeros([self.n_in,self.n_out],dtype=np.float32))
-        self.biases = tf.Variable(np.zeros([1,self.n_out],dtype=np.float32))
+        self.weights = tf.Variable(np.random.standard_normal([self.n_in,self.n_out]).astype(np.float32))
+        self.biases = tf.Variable(np.random.standard_normal([1,self.n_out]).astype(np.float32))
 
     def get_input_shape(self):
         """ Function to return the input Tensor dimensions """
@@ -110,8 +110,8 @@ class SoftmaxOutputLayer:
         self.mini_batch_size = mini_batch_size
 
         # Create variables
-        self.weights = tf.Variable(np.zeros([self.n_in,self.n_out],dtype=np.float32))
-        self.biases = tf.Variable(np.zeros([1,self.n_out],dtype=np.float32))
+        self.weights = tf.Variable(np.random.standard_normal([self.n_in,self.n_out]).astype(np.float32))
+        self.biases = tf.Variable(np.random.standard_normal([1,self.n_out]).astype(np.float32))
 
     def get_input_shape(self):
         """ Function to return the input Tensor dimensions """

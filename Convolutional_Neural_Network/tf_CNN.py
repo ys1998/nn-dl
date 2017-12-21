@@ -61,10 +61,14 @@ class tf_CNN:
                 """
                 I,O=training_data
                 n_batches = len(I)//mini_batch_size
+                total_loss=0.0; total_accuracy=0.0
                 for batch_no in range(n_batches):
                     x = np.stack(I[batch_no*mini_batch_size:(batch_no+1)*mini_batch_size],axis=0)
                     # Add the `#_feature_maps` dimension
                     x = np.expand_dims(x,axis=-1)
                     y = np.stack([one_hot(10,z) for z in O[batch_no*mini_batch_size:(batch_no+1)*mini_batch_size]])
                     _,curr_loss,accuracy = sess.run([train_step,self._loss,self._accuracy],feed_dict={self.input:x,self.correct_output:y})
-                    print("Epoch {0} mini-batch {1} : Loss = {2:.5}, Accuracy = {3:.5}".format(epoch_no+1,batch_no+1,curr_loss,accuracy))
+                    print("\33[2K Epoch {0} mini-batch {1} : Loss = {2:.5}, Accuracy = {3:.5}\r".format(epoch_no+1,batch_no+1,curr_loss,accuracy),end='')
+                    total_loss+=curr_loss
+                    total_accuracy+=accuracy
+                print("\33[2K Epoch {0} : Loss = {1:.5}, Accuracy = {2:.5}\r".format(epoch_no+1,total_loss/n_batches,total_accuracy/n_batches))
