@@ -9,7 +9,7 @@ This repository is a collection of resources that I used to dive into the field 
 * vanilla Recurrent Neural Network \[ [scratch](Recurrent_Neural_Networks/RNN.py) | [TensorFlow](Recurrent_Neural_Networks/tf_RNN.py) ]
 * Convolutional Neural Network \[ [Tensorflow](Convolutional_Neural_Network/) ]
 #### Application
-* MNIST handwritten digit classification using vanilla RNN \[ [scratch](handwritten_digit_classifier.py) | [TensorFlow](tf_handwritten_digit_classifier.py) ]
+* MNIST handwritten digit classification using feedforward NN \[ [scratch](handwritten_digit_classifier.py) | [TensorFlow](tf_handwritten_digit_classifier.py) ]
 * Basic language modeling on PTB corpus using vanilla RNN \[ [scratch](Recurrent_Neural_Networks/basic_language_modeling.py) | [TensorFlow](Recurrent_Neural_Networks/tf_basic_language_modeling.py) ]
 * MNIST handwritten digit classification using CNN \[ [TensorFlow](Convolutional_Neural_Network/mnist_classifier_cnn.py) ]
 
