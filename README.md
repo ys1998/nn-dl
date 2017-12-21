@@ -20,7 +20,7 @@ This repository is a collection of resources that I used to dive into the field 
 ## Resources
 Most of the code is inspired from the online book [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com) by M. Nielson (pdf version of the same along with a chapter-wise summary can be found [here](Book/)). Apart from this, the following resources were referred to for better understanding -
 
-- Colah's Blog - **Understanding LSTM Networks** \[ [pdf](Reference/Understanding_LSTM_Networks_colah's_blog.pdf) | [html](https://http://colah.github.io/posts/2015-08-Understanding-LSTMs/) ]
+- Colah's Blog - **Understanding LSTM Networks** \[ [pdf](Reference/Understanding_LSTM_Networks_colah's_blog.pdf) | [html](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) ]
 - Andrej Karpathy's Blog - **The Unreasonable Effectiveness of Recurrent Neural Networks** \[ [pdf](Reference/The_Unreasonable_Effectiveness_of_Recurrent_Neural_Networks.pdf) | [html](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) ]
 - **Tutorial on Recurrent Neural Networks** - Tensorflow \[ [html](https://www.tensorflow.org/tutorials/recurrent) ]
 - WildML - **Introduction to Recurrent Neural Networks** \[ [pdf](Reference/WildML_Intro_to_RNNs.pdf) | [html](http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/) ]
