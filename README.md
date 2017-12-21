@@ -4,11 +4,11 @@ This repository is a collection of resources that I used to dive into the field 
 * using TensorFlow (without using inbuilt classes)
 
 ## Code
-### Neural Networks
+#### Neural Networks
 * Feedforward neural network \[ [scratch](NN.py) | [TensorFlow](tf_DNN.py) ]
 * vanilla Recurrent Neural Network \[ [scratch](Recurrent_Neural_Networks/RNN.py) | [TensorFlow](Recurrent_Neural_Networks/tf_RNN.py) ]
 * Convolutional Neural Network \[ [Tensorflow](Convolutional_Neural_Network/) ]
-### Application
+#### Application
 * MNIST handwritten digit classification using vanilla RNN \[ [scratch](handwritten_digit_classifier.py) | [TensorFlow](tf_handwritten_digit_classifier.py) ]
 * Basic language modeling on PTB corpus using vanilla RNN \[ [scratch](Recurrent_Neural_Networks/basic_language_modeling.py) | [TensorFlow](Recurrent_Neural_Networks/tf_basic_language_modeling.py) ]
 * MNIST handwritten digit classification using CNN \[ [TensorFlow](Convolutional_Neural_Network/mnist_classifier_cnn.py) ]
@@ -20,7 +20,7 @@ This repository is a collection of resources that I used to dive into the field 
 ## Resources
 Most of the code is inspired from the online book [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com) by M. Nielson (pdf version of the same along with a chapter-wise summary can be found [here](Book/)). Apart from this, the following resources were referred to for better understanding -
 
-- Colah's Blog - **Understanding LSTM Networks** \[ [pdf](Reference/Understanding_LSTM_Networks_colah's_blog.pdf) | [html](https://http://colah.github.io/posts/2015-08-Understanding-LSTMs/) ]
+- Colah's Blog - **Understanding LSTM Networks** \[ [pdf](Reference/Understanding_LSTM_Networks_colah's_blog.pdf) | [html](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) ]
 - Andrej Karpathy's Blog - **The Unreasonable Effectiveness of Recurrent Neural Networks** \[ [pdf](Reference/The_Unreasonable_Effectiveness_of_Recurrent_Neural_Networks.pdf) | [html](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) ]
 - **Convolutional Neural Networks (CNNs / ConvNets)** - CS231n, Standford University \[ [html](https://cs231n.github.io/convolutional-networks) ]
 - **Tutorial on Recurrent Neural Networks** - Tensorflow \[ [html](https://www.tensorflow.org/tutorials/recurrent) ]
