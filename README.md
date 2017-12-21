@@ -22,7 +22,7 @@ Most of the code is inspired from the online book [Neural Networks and Deep Lear
 
 - Colah's Blog - **Understanding LSTM Networks** \[ [pdf](Reference/Understanding_LSTM_Networks_colah's_blog.pdf) | [html](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) ]
 - Andrej Karpathy's Blog - **The Unreasonable Effectiveness of Recurrent Neural Networks** \[ [pdf](Reference/The_Unreasonable_Effectiveness_of_Recurrent_Neural_Networks.pdf) | [html](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) ]
-- **Convolutional Neural Networks (CNNs / ConvNets)** - CS231n, Standford University \[ [html](https://cs231n.github.io/convolutional-networks) ]
+- **Convolutional Neural Networks (CNNs / ConvNets)** - CS231n, Stanford University \[ [html](https://cs231n.github.io/convolutional-networks) ]
 - **Tutorial on Recurrent Neural Networks** - Tensorflow \[ [html](https://www.tensorflow.org/tutorials/recurrent) ]
 - WildML - **Introduction to Recurrent Neural Networks** \[ [pdf](Reference/WildML_Intro_to_RNNs.pdf) | [html](http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/) ]
 - WildML - **Understanding Backpropagation Through Time** \[ [pdf](Reference/WildML_Understanding_BPTT.pdf) | [html](http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/) ]
