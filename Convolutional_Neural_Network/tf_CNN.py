@@ -72,3 +72,31 @@ class tf_CNN:
                     total_loss+=curr_loss
                     total_accuracy+=accuracy
                 print("\33[2K Epoch {0} : Loss = {1:.5}, Accuracy = {2:.5}\r".format(epoch_no+1,total_loss/n_batches,total_accuracy/n_batches))
+
+                # Check accuracy and loss on validation data
+                if validation_data:
+                    va_l,va_a=self.predict(sess,validation_data,mini_batch_size)
+                    print("Validation loss = {0:.5}, validation accuracy = {1:.5}".format(va_l,va_a))
+
+            # Check accuracy and loss on test data
+            if test_data:
+                te_l,te_a=self.predict(sess,test_data,mini_batch_size)
+                print("Test data loss = {0:.5}, test data accuracy = {1:.5}".format(te_l,te_a))
+
+    def predict(self,sess,input_data,mini_batch_size):
+        """
+        Function to predict the output for a given set of data.
+        It can be used to evaluate validation and test accuracies and losses.
+        """
+        I,O=input_data
+        n_batches = len(I)//mini_batch_size
+        total_loss=0.0; total_accuracy=0.0
+        for batch_no in range(n_batches):
+            x = np.stack(I[batch_no*mini_batch_size:(batch_no+1)*mini_batch_size],axis=0)
+            # Add the `#_feature_maps` dimension
+            x = np.expand_dims(x,axis=-1)
+            y = np.stack([one_hot(10,z) for z in O[batch_no*mini_batch_size:(batch_no+1)*mini_batch_size]])
+            curr_loss,accuracy = sess.run([self._loss,self._accuracy],feed_dict={self.input:x,self.correct_output:y})
+            total_loss+=curr_loss
+            total_accuracy+=accuracy
+        return total_loss/n_batches,total_accuracy/n_batches

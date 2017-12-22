@@ -32,4 +32,4 @@ cnet = CNN(
                             )
             ]
             )
-cnet.train(tr_d,learning_rate=0.5)
+cnet.train(tr_d,learning_rate=0.5,test_data=te_d,validation_data=va_d)
