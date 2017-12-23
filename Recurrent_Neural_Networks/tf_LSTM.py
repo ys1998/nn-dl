@@ -1,5 +1,8 @@
 """
 Implementation of Long Short-Term Memory network in TensorFlow.
+
+This implementation uses one-hot representation for each word in the vocabulary
+for language modeling purpose.
 """
 import tensorflow as tf
 import numpy as np
